@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function toDou(n){
+        return n>=0&&n<10?'0'+n:''+n;
+    }
+    function romainTime(){
+        var oDate = new Date();
+        var nowTime = oDate.getTime();
+        var oTime = new Date('2018/5/4 17:00:00');
+        var s = Math.floor((oTime.getTime()-nowTime)/1000);
+        var year = Math.floor(s/(24*3600*365));
+        s%=(24*3600*365);
+        var day = Math.floor(s/(24*3600));
+        s%=24*3600;
+        var h = Math.floor(s/3600);
+        s%=3600;
+        var m = Math.floor(s/60);
+        s%=60;
+        var str = year+'年'+toDou(day)+'天'+toDou(h)+'小时'+toDou(m)+'分'+toDou(s)+'秒';
+        document.body.innerHTML = str;
+    }
+    //romainTime();
+    setInterval(romainTime,1000);
+</script>
+</body>
+</html>

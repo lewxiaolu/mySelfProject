@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #box{
+            width: 200px;
+            height:200px;
+            background: #f00;
+        }
+    </style>
+</head>
+<body>
+on run off 这个方案解决的是执行顺序问题
+on方法负责创建一个数组（程序池、事件池）把原来直接绑定到事件的方法，保存在此数组，这样就自然达到按顺序保存的目标-->有序保存
+    真正绑定在此事件的方法是run方法，当事件触发的时候，运行run方法--->有序执行
+    run方法功能：找到和此事件类型相对的那个数组，遍历执行数组里面的方法
+   还要能够当系统事件触发的时候，run可以执行 ，我们浏览器在事件上真正要绑定的是run 在就是说在iE中需要有一句事件绑定 ele.attachEvent("on"+type,fn);
+  <div id="box"></div>
+<script type="text/javascript">
+    var oDiv = document.getElementById('box');
+    on(oDiv,'click',fn1);
+    on(oDiv,'click',fn2);
+    on(oDiv,'click',fn3);
+    off(oDiv,'click',fn3);
+    function fn1(){
+        alert(1);
+    }
+    function fn2(){
+        var e = window.event;
+        alert(e.pageX)//在run方法里，给事件对象e上定义了一个属性叫pagX,在不同的方法里，哪怕是由同一个事件触发的方法，他们的window.event事件对象不通用、、
+                        //注意：如果在run里面已经解决了事件兼容性问题了，就会
+        alert(2);
+
+    }
+    function fn3(){
+        alert(3);
+    }
+    function on(ele,type,fn){//aEvent 标识符--防止自定义属性和系统属性冲突  type类型数组的区分符 系统也有click事件 eg：ele.click -false ele.aEventclick不冲突
+        if(ele.addEventListener){
+            ele.addEventListener(type,fn,false);
+            return;
+        }
+        if(!ele["aEvent"+type]){
+            ele["aEvent"+type]=[];
+            ele.attachEvent("on"+type, function () {
+                run.call(ele);
+            });
+        }
+        var a =  ele["aEvent"+type];
+        for(var i = 0;i< a.length;i++){
+            if(a[i]==fn) return;
+        }
+        a.push(fn);
+    }
+    function run(){
+        var e = window.event;
+        var type = e.type;//当事件触发的时候  动态得到事件
+        if(!e.target){
+            e.target = e.srcElement;
+            e.pageX = e.clientX+(document.documentElement.scrollLeft||document.body.scrollLeft);
+            e.pageY = e.clientY+(document.documentElement.scrollTop||document.body.scrollTop);
+            e.stopPropagation = function (){
+                e.cancelBubble = true;
+            }
+            e.preventDefault = function () {
+                e.returnValue = false;
+            }
+        }
+        var a = this["aEvent"+type];//把原来在on方法里保存好的数组找到
+        if(a){
+            for(var i=0;i< a.length;i++){
+                if(typeof a[i] == 'function'){//在确保执行之前，先要确定数组项是方法 a[i]()---里面的this指的是a
+                    a[i].call(this,e);//数组里的方法是绑定在事件上的方法，那应该遵循一个原则：这些方法执行的时候，this关键字应该指定当前绑定这些方法的元素。
+                    //也就是说要确保a[i]在执行的时候，要指向这个元素；e:同一标准浏览器和ie浏览器可以传递e(事件对象)
+                }else{
+                    a.splice(i,1);
+                    i--;
+                }
+            }
+        }
+    }
+    function off(ele,type,fn){
+        if(ele.removeEventListener){
+            ele.removeEventListener(type,fn,false);
+            return;
+        }
+        var a = ele["aEvent"+type];
+        if(a){    //on不执行 只执行off---要判断a的存在 如果a不存在 a.length 报错
+            for(var i = 0;i< a.length;i++){//如果用splice删除配合i--的话  i值不变length改变数组对应不起来 而且下面的return i--不成立
+                if(a[i]==fn){
+                    a[i] = null;
+                    //i--;下面的return 使其i--失效 循环不成立
+                    return;
+                }
+            }
+        }
+    }
+</script>
+</body>
+</html>

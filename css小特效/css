@@ -1,0 +1,43 @@
+1、-webkit-appearance: none | button | button-bevel   //按照本地默认样式显示元素外观
+     none:去除系统默认appearance的样式,常用于IOS下移除原生样式
+     button:看起来像个按钮，以按钮的风格渲染
+     button-bevel:渲染成button-bevel的风格
+
+2、在ie7下，如下代码会出现z-index覆盖混乱的问题：
+     <div style="position:relative;">
+     <div style="position:absolute;z-index:100;width:100px;height:100px;background:red;"></div>
+     </div>
+     <div style="position:relative;">
+     <div style="position:absolute;z-index:10;width:20px;height:20px;background:black;"></div>
+     </div>
+
+     原因：这是因为绝对定位元素的“有定位属性（relative或absolute）的父元素”在渲染层次时起到了主要作用，前面的被后面的覆盖了
+
+     办法：解决办法就是给有定位属性的父元素设置z-index：
+     <div style="position:relative;z-index:2;">
+     <div style="position:absolute;z-index:100;width:100px;height:100px;background:red;"></div>
+     </div>
+     <div style="position:relative;z-index:1;">
+     <div style="position:absolute;z-index:10;width:20px;height:20px;background:black;"></div>
+     </div>
+
+3、   文字超出长度 自动截取
+      width：100px;
+     text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow:hidden;
+
+
+4、  text-transform:uppercase; 全部大写
+     {text-transform:capitalize;} 首字符大写
+
+
+5、a有背景图 让他有内容--内容是关键字 搜索引擎优化
+     font-size: 0;
+       /*text-indent:-100px;overflow:hidden;显示文字的隐藏 利于搜索引擎优化*/
+
+6、this.checkValidity()---如果当前的input设定了特殊的类型 例如：email number  那么浏览器
+      css中： input:valid{}格式正确的 要显示的样式
+7、移动端的表单元素事件：input事件
+8、传统的盒子模型（content-box）:容器的宽度=border=padding=width
+   css新盒子的模型：border-box:容器的宽度=width  不管给当前容器的border/padding设置多少容器的宽度始终使我们设定的width 只是默认的会把内容区域的宽度调整

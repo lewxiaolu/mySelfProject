@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .footer{
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            z-index: 9;
+        }
+        .pre-wrap {
+            width: 24px;
+            height: 14px;
+            position: relative;
+            -webkit-animation: start 1.5s infinite ease-in-out;
+            -moz-animation: start 1.5s infinite ease-in-out;
+            animation: start 1.5s infinite ease-in-out
+        }
+
+        .pre-box1,.pre-box2 {
+            height: 15px;
+            width: 11px;
+            position: absolute;
+            top: -5px;
+            overflow: hidden
+        }
+
+        .pre-box2 {
+            left: 10px
+        }
+
+        .pre1,.pre2 {
+            width: 14px;
+            height: 5px;
+            position: absolute;
+            box-shadow: 1px -1px 1px #646464;
+            top: 5px
+        }
+
+        .pre1 {
+            transform: rotate(130deg);
+            -webkit-transform: rotate(130deg);
+            left: 1px
+        }
+        .pre2 {
+            left: -4.5px;
+            -webkit-transform: rotate(50deg);
+            transform: rotate(50deg)
+        }
+        .pre1,.pre2{
+            background-color: #fff;
+            border-radius: 2px
+        }
+        @-webkit-keyframes start {
+            0%,30% {
+                opacity: 0;
+                -webkit-transform: translate(0,10px)
+            }
+
+            60% {
+                opacity: 1;
+                -webkit-transform: translate(0,0)
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform: translate(0,-8px)
+            }
+        }
+        @keyframes start {
+            0%,30% {
+                opacity: 0;
+                transform: translate(0,10px)
+            }
+
+            60% {
+                opacity: 1;
+                transform: translate(0,0)
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(0,-8px)
+            }
+        }
+    </style>
+</head>
+<body>
+<footer class="footer">
+    <div class="pre-wrap">
+        <div class="pre-box1">
+            <div class="pre1"></div>
+        </div>
+        <div class="pre-box2">
+            <div class="pre2"></div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

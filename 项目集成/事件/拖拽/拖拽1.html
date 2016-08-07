@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            padding:0;
+            margin:0;
+
+        }
+        #did{
+            position: absolute;
+            width: 200px;
+            height:200px;
+            background:red;
+        }
+    </style>
+</head>
+<body>
+<div id="did"></div>
+<script type="text/javascript">
+  /* function sum(n){
+       if(n<=0){
+           return 0;
+       }
+       if(n%3!=0){
+           return  n+sum(n-1);
+       }
+      return sum(n-1);
+   }
+   var total = sum(10);
+   alert(total);*/
+   var did=document.getElementById("did");
+   var doc = document.documentElement||document.body;
+   //鼠标的按下事件
+   did.onmousedown=function(ee){
+       //浏览器兼容性问题
+       eee=ee||window.event;
+       //获取鼠标按下去的坐标
+      var x1=eee.clientX,
+       y1=eee.clientY,
+       xx=x1-did.offsetLeft,
+       yy=y1-did.offsetTop;
+       did.style.backgroundColor="red";
+       did.style.cursor="move";
+       //鼠标的移动事件
+       doc.onmousemove=function(e){
+           //浏览器兼容性问题
+           ee=e||window.event;
+           //获取鼠标移动的坐标
+           var x=ee.clientX,
+           y=ee.clientY;
+           did.style.top=(y-yy)+"px";
+           did.style.left=(x-xx)+"px";
+       }
+   }
+   //鼠标抬起事件
+   did.onmouseup=function(){
+       did.style.backgroundColor="#ccc";
+       did.style.cursor="default";
+       //清空移动事件
+       doc.onmousemove=null;
+   }
+
+</script>
+</body>
+</html>

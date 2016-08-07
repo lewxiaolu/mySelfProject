@@ -1,0 +1,569 @@
+1、 网页的组成部分：
+          结构层:html(超文本标记语言 搭建结构)
+          表现层：css（层叠样式表）
+          动作层：JavaScript（轻量级的脚本语言（松散）   实现动效和数据交互）
+
+ 2、JavaScript主要是是为了网页交互而设计的一种轻量级脚本语言
+     1）ECMAscript(第5版本) :变量,命名规范,数据类型,操作语句等核心的语法知识   js的语法完全兼容
+     2) DOM(document object model)文档对象模型 -- 提供了操作页面元素常用的属性和方法  document -- 文档 操作元素 有兼容性问题  可以解决
+     3) BOM(browser object model )浏览器对象模型 -- 提供了浏览器常用的属性和方法  window -- 浏览器兼容性问题很大 我们无法解决
+
+ 3、鼠标移入效果的实现思想：
+     思想：鼠标移入一个元素，让另一个元素显示，否则反之；
+     display/z-Index/位移配合display:none/height/opacity/visiblity....
+
+ 4、 css引入页面的方式:行内式,内嵌式,链接式(外链式和导入式)
+     js引入页面的方式:行内式(不安全,不推荐使用),内嵌式,外链式
+     解析：行内（“”里面就是用来执行JS代码的），
+           内嵌(<script></script>)，
+           外链（script-src）
+     -注：在外面的script两个标签中间写任何JS代码都不会执行
+         如何来写JS：找到谁？给谁加什么事件？执行什么事？（匿名函数，有名字的函数--注意，若有事件等号后面的函数调用时，
+        一定不能加括号，否则函数会自己执行，如果有参数，需要外面多加一层函数，里面调用和传参）
+
+ 5、 常用的简单的调试js代码的方式：
+       1.alert -页面中直接弹出你要输出的内容；缺点：不宜打印对象 object对象
+       2.confirm('你要输出的内容')--》返回值：确定-true； 取消-false；
+       3.console.dir(); 可以输出一个对象所有的属性和方法；
+       4.console.log(); 只可以打印出来这个对象所属的标签 与alert 相比，可以把对象完整打印出来；
+       5.console.table(); 制表符
+       6.页面输出的两种方式：
+           document.write() 注意：如果在window.onload事件里，输出document.write(''),会清空页面中以前所有的内容；
+           obj.innerHtml->输出任意标签中包裹的内容（即使隐藏的元素，它的内容也能输出）
+
+ 6、变量严格区分大小写 var a /var A
+         * 首字符只能是字母,下划线,$(美元符)(首字符不能是数字),其他的字符可以是字母,数字,下划线,$
+         * 开始是$符一般是jquery库或者其他的类库里声明的变量
+         * 首字符是下划线的,一般表示私有的变量 var _total;
+         * 采用驼峰式的命名法(由多个单词组合,第一个字符小写，从第二个单词开始首字符大写)
+         * 可以是中文,但是不推荐
+
+ 7、window 浏览器
+       * 只要是script标签下的代码都是在window下的,因此这边的window.可以省略不写
+   document 文档
+       * . 表示从属的关系
+       操作属性的方式：1.“.” 2.[] 注意：中括号里面必须加引号
+       所有点能操作的，中括号都能操作，但是所有中括号能操作的，点不一定能操作；
+
+ 8、JS中写复合样式
+    一定不能用—，必须从第二个单词开始，首字母大写；eg：background-color-----backgroundColor
+
+ 9、注释
+   多行注释快捷键：ctrl+shift+/
+   注：以后做项目调试时，千万不要随便乱删代码，注释掉即可；
+
+ 10、  if语句的几种写法：
+          1.
+          if(条件1）{
+              条件为真执行此语句1
+          }else{
+              条件为假时执行此语句2
+          }
+          //以下两者只适合执行一个语句
+          2. 条件1 && 条件为真执行此语句1； -走if语句
+             条件1 || 条件为假执行此语句2； -走else语句
+
+              a||b 如果a为真 则返回a的值，如果a为假 则返回b的值
+              a&&b 如果a为真则返回b的值 如果a为假（不往后走）则返回a的值
+                 &&>||
+                  优先级&&大于||
+
+
+          3. if(条件）条件为真执行此语句；
+          4.三目：三元表达式   写法：条件？语句1：语句2；
+          条件1？条件为真执行此语句1：条件为假时执行此语句2；
+          if(条件1）{
+              条件为真执行此语句1
+          }
+          以上只有一个语句时，三目如何写？
+          条件1？条件为真执行此语句1：null；
+
+ 11、条件1&&条件2  条件1为真，执行条件2，条件1为假，返回条件1
+     条件1||条件2  条件1为真，执行条件1，条件1为假，返回条件2
+
+ 12、for循环四部曲: 1、定义变量 2、判断条件、 3、执行语句 4、i++
+     面试题：
+          for (var i = 0; i < 10; i++) {
+              if (i <= 3) {
+                  i += 2;
+                  continue;
+              } else {
+                  i += 3;
+                  break;
+              }
+              i += 5;
+          }
+         console.log(i);
+
+         答案：9
+
+
+
+ 13、数据类型检测：
+        typeof：常用于检测基本数据类型
+        constructor
+        instanceOf： 检查一个对象是否属于某个类  （公有属性用in ）
+                             求对象上的公有属性；
+                             function hasPubProperty(attr,obj){
+                                    return attr in obj && !obj.hasOwnProperty(attr)
+                                    //思路：1）必须是对象上的一个属性；2）他一定不是私有属性；1和2是&&的关系；
+                                    //返回值：一定是布尔值；
+                                }
+
+        Object.prototype.toString.call();
+
+
+ 14、    //第一种
+            var oDiv = document.getElementById("div1");
+          console.dir(document.getElementById("div1"));
+    //    oDiv.style.width='100px';
+
+        //第二种
+    //    var oStyle = document.getElementById("div1").style;
+    //    oStyle.width = "300px";
+
+        //第三种
+        var oDivStyleWidth = document.getElementById("div1").style.width;
+        oDivStyleWidth = "600px"  //失效
+
+ 15、任意数求和
+         var n1=sum(1,2);
+         var n2=sum(1,2,3,'3','12px');
+         function sum(){//参数不确定的情况下，用arguments
+             var total=0;
+             //循环遍历参数中的每一项
+             for(var i=0; i<arguments.length; i++){
+                 var cur=arguments[i];
+                 //判断参数必须是数字才能进行相加
+                 if(!isNaN(cur)){
+                     total+=Number(cur);//Number()严格转换，避免字符串拼接；
+                 }
+             }
+             return total;//一定要同return返回我们的求和结果
+         }
+         alert(n1);
+         alert(n2);
+
+ 16、求0-10之间不能被3整除的数之和
+     递归思想：
+      function sum(n){
+          if(n==0){return 0;}
+          if(n%3==0){
+              return sum(n-1);
+          }
+          return n+sum(n-1);
+      }
+      var result = sum(10);
+
+      1-5之间相乘 5*4*3*2*1
+      function fn(n){
+         if(n == 1){
+             return 1;
+         }
+         return n*fn(n-1);
+      }
+      var res = fn(5);
+
+ 17、修改日期--字符串
+          var str='2016/5/1 14:9:1';
+          var ary=str.split(' ');
+          var aryL=ary[0].split('/');
+          var aryR=ary[1].split(':');
+          document.body.innerHTML=aryL[0]+'年'+toDou(aryL[1])+'月'+toDou(aryL[2])+'日 '+toDou(aryR[0])+'时'+toDou(aryR[1])+'分'+toDou(aryR[2])+'秒';
+          function toDou(n){
+              return n>=0&&n<10?'0'+n:''+n;
+          }
+
+18、自执行函数的写法：
+        (function(){})();
+        ~function(){}();
+        !function(){}();
+        +function(){}();
+        -function(){}();
+
+20、闭包：函数执行的时候，会形成一个新的私有作用域，保护里面的变量不受外界的干扰，函数这种保护机制，叫做闭包；
+    1.为什么要使用闭包：
+        1）防止变量名冲突
+        2）可以通过传参的方式，对全局变量的在私有作用域里重新赋值；
+    2.闭包里面的值，如果想修改全局的值，window.xx=xx;
+    3.闭包可以用来封装方法，最后通过window.方法名=方法名；把封装好的函数，让外面可以用到；
+
+21、运算符的优先级 算术运算符》比较运算符》逻辑运算符》赋值运算符
+
+22、this的五种用法:
+   1.自执行函数里的this，永远都是window；
+   2.如果一个元素通过一个行为来触发一个方法，方法中的this就是当前这个元素；
+   3.函数调用的时候，看前面是否有'.'，有'.'的话，'.'前面是谁，this就是谁；
+   4、在构造函数里，this指的是实例
+   5、call、apply、bind可以改变this指向
+
+   补充： 以下方法中this指的是当前的数组或者对象
+   var a=["a","b","c",function(){alert(this)}];
+      a[3]();//方括号是点的另一种表现形式，等同于点。但有些情况下我们无法用点来表示对象的属性，只能用方括号，比如数组或数字属性，但它等同于用点来调用
+
+      var obj={attr1:"a",attr2:"b",attr3:function(){alert(this)}}
+      obj.attr3();//和下面的是不是等同
+      obj["attr3"]();
+      var obj2={1:"a",2:"b",3:function(){alert(this)}}
+      obj2[3]();//这种情况下无法用打点的方法来表达3这个属性，但等同于用打点的方法来表达
+
+
+23、属性的判断：
+   1）in:私有属性+公有属性；如果是的话返回true,不是的话返回false  eg:console.log("abc" in obj);//false;
+   2)hasOwnProperty:查看是否是对象上的私有属性；
+
+   扩展：封装对象上的共有属性
+         function hasPubProperty(attr,obj){
+             return attr in obj && !obj.hasOwnProperty(attr)
+             //思路：1）必须是对象上的一个属性；2）他一定不是私有属性；1和2是&&的关系；
+             //返回值：一定是布尔值；
+         }
+
+   23.1 obj[attr] attr是变量
+             obj["attr"] 引号下的attr是obj固定的一个属性
+             obj.attr 通过.的方式获取的都是固定的一个属性
+
+24、任意数求和
+     function sum(){
+            var total=0;
+            for(var i=0; i<arguments.length; i++){
+                //total+=arguments[i]
+                var cur=arguments[i];
+                if(!isNaN(cur)){
+                    total+=Number(arguments[i]);//如果不用Number，很可能字符串拼接；
+                }
+            }
+            return total;
+        }
+        alert(sum(1,2));
+        alert(sum(1,2,'3','13px'));
+
+25、JS中处理兼容的几种思想
+       1）try。。catch。。 不建议使用，因为无论浏览器是否支持，都要走一遍try里的语句；性能比较差
+       2）属性判断，可以使用attr in obj/ obj[attr]; 建议使用：因为if和else里只会走一个；
+       3）大招：浏览器判断 ；一般情况不用；
+
+26、ie中逐断点调试f5  chrome是f8
+27、事件兼容写法
+ if (!e.target) {
+           e = window.event;
+           e.target = e.srcElement;
+           e.pageX = e.clientX + (document.documentElement.scrollLeft || document.body.scrollLeft);
+           e.pageY = e.clientY + (document.documentElement.scrollTop || document.body.scrollTop);
+           e.preventDefault = function () {  //阻止默认行为
+               e.returnValue = false;
+           };
+           e.stopPropagation = function () {  //阻止事件冒泡
+               e.cancelBubble = true;
+           };
+       }
+27、oDiv.offsetLeft(可以四舍五入)和window.getComputedStyle(oDiv,null).left（精准--》 不会四舍五入）
+  规律：JS中盒子模型的属性：client、offset、scroll系列的
+        -->获取到的结果只能是整数
+        -->对于样式值处于小数的，JS会自己进行四舍五入
+
+28、事件运动 里面层有img的时候：可以给父标签叫overflow：hidden；可以解决弹性事件往下走的时候，出现滚动条
+
+29、function move(ele,target){
+          语句
+          setTimeOut(function(){move(ele,target)},10);//此时move方法里面的ele，target是外层move的变量  ...一直递归下去变量一直在被占用这是作用域一直被占用 不销毁
+     }
+     function move（ele,target）{
+         function _move(){
+            语句。
+         }
+         setInterval(_move,10);  //move运行的作用域不会释放，但_move 运行的作用域每次都释放了，这样的写法不会出现作用作用域嵌套积累，性能会比上个好。因为里面的变量不会被占用。
+     }
+30、见山是山  见山不是山 见山是山
+     事件--function 发生的动作  他可以通过某种方式（某种途径）和另一个行为（function）协作
+     当鼠标点在某个按钮上的时候----动画执行了  在鼠标单击的动作和动画这个之间要有个连接的途径
+     btn.onclick = function(){}
+     btn.addEventListener('click',animate,false)
+
+31、主动为：click   先通知在执行 通过addEventListener找到on方法里面的
+    on : 约定
+    off：
+    run ：通知
+32、on(this.ele,"mouseover",this.down)//  this.down 此时this指的是所属 通过所属找到down  而down里面的this是ele
+33、需求：求最大值和最小值
+   1）思想1：sort思想
+       1.sort思想
+          ary.sort(function (a,b){
+              return a-b;
+          })
+          var min=ary.shift();
+          var max=ary.pop();
+
+   2）思想2：假设法
+      var max=ary[0];
+          var min=ary[0];
+          for(var i=0; i<ary.length; i++){
+              if(ary[i]>max){
+                  max=ary[i];
+              }
+              if(ary[i]<min){
+                  min=ary[i];
+              }
+          }
+          alert(min+';'+max);
+
+   3）思想3：Math思想-eval
+       console.log(eval("Math.max("+ary.toString()+")"));
+
+   4）思想4：Math思想-apply
+      Math思想-apply
+          var min=Math.min.apply(null,ary);
+          alert(min)
+
+34、原型问题：
+    Kettle.prototype = new EventEmitter;---小心位置 会改变prototype指向 它本身prototype上的公共方法就会丢丢
+    Kettle.prototype.__proto__ = EventEmitter.prototype;不会破坏Kettle的prototype 位置随意
+35、self--给DOM
+    EventTarget(不公开 没有公开run)  事件管理（EventEmitter实现原理是一样的 在node.js(后台里面)是公开、开放的一个类，你可以给自己定义的类实现发布事件（自己定义的类继承一下EventEmitter））
+    div-HTMLDivElement-HTMLElement-Element-Node-EventTarget-Object
+    document--HTMLDocument--Document--Node---EventTarget--Object
+
+36、-webkit-appearance: none | button | button-bevel   //按照本地默认样式显示元素外观
+     none:去除系统默认appearance的样式,常用于IOS下移除原生样式
+     button:看起来像个按钮，以按钮的风格渲染
+     button-bevel:渲染成button-bevel的风格
+
+37、js都是单线程的，某些后台程序（JAVA .net）语言一般都是同步多线程的
+    js一个事件只能做一件事件，
+    异步编程：
+
+    js异步同步
+        1)所有的定时器都是异步编程
+        2)所有的事件绑定都是异步编程的
+        3)Ajax中也一般使用的是异步编程
+
+38、资源文件的MIME类型  content-type 告诉浏览器或者浏览器以什么样式的格式来解析改数据 通过http事物中的通用首部content-type来表示MIME type
+   text：
+         文本 ->text/plain  ;charset = utf-8
+         HTML ->text/html
+         CSS ->text/css
+         JS ->text/javascript
+   image：
+         png image/png
+         git image/git
+    扩展的：
+     json application/json
+    表单提交：
+      application/x-www-form-urlencoded
+     大类型/小类型
+       文本格式是可以设置字符集（charset）
+
+
+39、面试题关于http状态码
+      304：未修改
+          前端缓存如何实现：
+          涉及到两个响应首部：
+              last-modified (请求文件最后一次修改的时间) GMT格式
+               etag          请求的静态资源通过摘要算法计算得到的散列值  一堆不规则的字符串
+          涉及到两个请求首部
+               last-modified-since 和 last-modified对应
+               if-none-match 和etag对应
+          强缓存涉及到两个请求首部
+               expires: 静态资源过期时间   浏览器端GMT时间
+               cache-contorl: 缓存多少秒
+
+40、  URL scheme
+          http 默认端口80
+          https 默认端口443  HTTPS=http+SSL/STL 加密方式：非对称加密  RSA算法(算法)
+          ftp:默认端口21
+          smtp:默认端口25  邮件协议
+          file:本地打开文件预览  因为file是不通过网络请求的，所以无法使用ajax
+     URL querystring 的格式
+         query中只能使用英文字符，如果遇到非英文字符则需要转换为URI字符串格式  通过encodeURI/encodeURIComponent()方法转换为URI字符串
+        eg:
+        url格式： scheme://hostname:port/path？querystring#hash
+                   url中的组件component（分隔符）:/?#
+
+         encodeURI：只转义非英文字符
+         encodeURIComponent：除了非英文付还会转义URL组件
+
+41、http版本 1.1和2.0的区别
+    多路复用 2.速度比http1.0块两倍
+
+    说的2.0
+    1、多路复用
+    2、首部压缩：请求的大小变小  速度快
+    3、服务器端推送
+
+42、1k= 1024字节
+43、undefined 在低版本中ie下被重写的bug
+    在标准浏览器中：undefined是不能被重新  var a;   a==undefined（true）   undefined = 1; a==undefined （true）
+    在低版本的ie中  var a;   a==undefined（true）   undefined = 1; a==undefined （false）
+    解决：var isUndefined = function(data){
+          return data === void 0;
+    }
+https://github.com/YataoZhang/yunCloud
+
+44、jsonp的注意事项
+   1 因为jsonp是通过script的src属性去加载跨域资源所以请求全部都是get方法请求
+   2 get系方法的特点jsonp全有
+   3 所有的jsonp接口必须含有一个jsonpcallback，否则不是合法的jsonp接口
+   4 所有的jsonp接口必须按照格式返回
+
+45、让一个盒子处于整个当前页面正中间的位置（水平和垂直都是居中）
+   JS：
+       var winW = document.documentElement.clientWidth||document.body.clientWidth;
+       var winH = document.documentElement.clientHeight||document.body.clientHeight;
+       var oBox = document.getElementById("box");
+       var oBoxW = oBox.offsetWidth;
+       var oBoxH  = oBox.offsetHeight;
+       box.style.position="absolute";
+       box.style.left = (winW-oBoxW)/2
+       box.style.top = (winH-oBoxH)/2
+
+   CSS：
+   box{
+      position:absolute;
+      left: 50%;
+      right: 50%;
+      width:200px;
+      height:200px;
+      margin-left: -100px;
+      margin-top: -100px;
+   }
+   //使用css实现：不兼容ie6-7（移动端的项目的居中采用这种方法即可）
+   box{
+        position:absolute;
+        left: 0;
+        right: 0;
+        bottom:0;
+        top:0;
+        margin: auto;
+        width:200px;
+        height:200px;
+   }
+
+  使用css3中新增加flex伸缩盒模型实现居中：浏览器的兼容较差  兼容性很差
+   flex：也可以解决
+
+
+46、 使用最新的HTML5语义化标签来搭建页面的结构 进行SEO的优化
+
+47、判断是移动端还是PC端
+    var curURL = window.location.href;
+            if (/AppleWebKit.*Mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/.test(navigator.userAgent))) {
+                //手机端浏览器
+                if (curURL.indexOf("www.qq.com
+
+    ") > -1) {
+                    window.location.href = "http://xw.qq.com/";
+                }
+            } else {
+                //pc端浏览器
+                if (curURL.indexOf("xw.qq.com") > -1) {
+                    window.location.href = "http://www.qq.com
+
+    /";
+                }
+            }
+
+48、jQuery中用filter判断几个集合是否包含某个元素
+    $().filter(".light")
+
+49、解决异步的方法
+    1)是计数器
+    2)Object.keys(属性).length
+    3)promise
+
+50、属性的删除;
+   属性=null ：假删除   obj.width=null
+   delete 属性 是真删除 delete obj.width
+
+51、在控制台打印出的是制表符的形式
+52、若有事件等号后面的函数调用时：一定不能加括号，否则函数会自己执行，如果有参数，需要外面多加一层函数，里面调用和传参；
+    如果函数放在标签里面的时候：要加括号的onclick = click()
+53、var  oWidth = oDiv.style.width;
+     oWidth = "40px"; 这么是无效的 因为 style本身是个对象  oDiv.style.width获取的是地址  给地址赋值是无效的
+     var oWidth = oDiv.style
+     oWidth.width = "40px" 这是可以的通过oWidth地址找到width  给他进行赋值
+
+54、获取随机整数
+   1、while循环
+        var ary = [];
+        while(ary.length<4){
+            var res = Math.round(Math.random()*(62-2)+2);
+            if(ary.indexOf(res)==-1){
+                ary.push(res);
+            }
+        }
+        console.log(ary);
+    2、for循环
+        var ary = [];
+        for(var i = 0;i<4;i++){ //[2,3,37,37]
+            var res =Math.round( Math.random()*(62-2)+2);
+            if(ary.indexOf(res)==-1){
+                ary[ary.length] = res;
+            }else{
+                i--;
+            }
+        }
+        console.log(ary);
+
+55、闭包：函数执行的时候，会形成一个新的私有作用域，保护里面的变量不受外界的干扰，函数这种保护机制，叫做闭包；
+
+56、常见的匿名函数：
+       1.函数表达式；把函数定义部分做为值赋值为变量or元素事件行为；
+       2.自执行函数:函数定义和调用一起完成
+        自执行函数的写法：
+        (function(){})();
+        ~function(){}();
+        !function(){}();
+        +function(){}();
+        -function(){}();
+
+57、  Number.prototype.pulse=function(num){
+               return this+num
+           }
+       Number.prototype.jian=function(num){
+           return this-num
+       }
+
+       console.log((5).pulse(7).jian(6))
+
+58、mongoDB
+     save() 区别于insert
+     $inc  递增
+     $set 设置
+      multi:true  多条更新
+      find查找会找到最后
+      findOne找到就停止
+59、    var num = 13;
+       function fn1() {
+           num = 15;
+           function f() {
+               console.log(num);
+           }
+           return f;
+       }
+       function fn2() {
+           var num = 14;
+           var bb = fn1();
+           bb();
+       }
+       fn2();
+
+       //15
+
+60、
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

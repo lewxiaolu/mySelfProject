@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="base.css">
+    <style type="text/css">
+        .top_left{
+            float: left;
+        }
+        .top_cp{
+            padding: 0 25px 0 10px;
+        }
+        .com_top{/*公共设置箭头*/
+            position: relative;
+            cursor: default;
+            zoom: 1;
+        }
+        .com_top:hover .ci-right{
+            -webkit-transform: rotate(180deg);
+            -moz-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+            -o-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+        .com_top i{/*公共设置箭头*/
+            position: absolute;
+            display: inline-block;
+            overflow: hidden;
+        }
+        .ci-right{
+            top: 6px;
+            right: 8px;
+            height: 7px;
+            font:400 15px/15px consolas;
+            color:#6A6A6A;
+            -webkit-transition: transform .1s ease-in;
+            -moz-transition: transform .1s ease-in;
+            -ms-transition: transform .1s ease-in;
+            -o-transition: transform .1s ease-in;
+            transition: transform .1s ease-in;
+        }
+
+        .top_c i s{
+            position: relative;
+            top:  -7px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="top_left">
+    <div class="top_c top_cp com_top">
+        <i class="ci-right"><s>◇</s></i>
+        <span>送至：</span><span class="address">北京</span>
+    </div>
+</div>
+</body>
+</html>

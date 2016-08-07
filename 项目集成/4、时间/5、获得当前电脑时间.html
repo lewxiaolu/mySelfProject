@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="div1"></div>
+<script>
+    var oDiv = document.getElementById('div1');
+    function getComputeTime(){
+        var res = null;
+        var now = new Date();//以当前电脑时间为基准 创建时间对象
+        var year = now.getFullYear();//年
+        var month = now.getMonth()+1;//(0,11)--(1,12) 月
+        var date = now.getDate();//日
+        var week = now.getDay();//(0-6)
+        var hour = now.getHours();//时
+        var minute = now.getMinutes();//分
+        var second = now.getSeconds();//秒
+        //var msecond = now.getMilliseconds();//毫秒
+
+        switch (week){
+            case 0:
+                week = "星期日";
+                break;
+            case 1:
+                week = "星期一";
+                break;
+            case 2:
+                week = "星期二";
+                break;
+            case 3:
+                week = "星期三";
+                break;
+            case 4:
+                week = "星期四";
+                break;
+            case 5:
+                week = "星期五";
+                break;
+            case 6:
+                week = "星期六";
+        }
+        res = year+"年 "+month+"月 "+date+'日 '+ week+" "+hour+'时 '+minute+'分 '+second+'秒 ';
+        oDiv.innerHTML = res;
+    }
+
+    getComputeTime();
+    window.setInterval(function(){
+        getComputeTime();
+    },1000);
+</script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+1.对象有两部分组成：属性和方法；
+2.面向对象特点：
+1）封装：低耦合高内聚
+2）继承：子类继承父类的属性和方法
+3）多态：多种形态，包括重载和重写
+重载：JS中相同函数名，后面会把前面覆盖掉，所以JS不存在重载；但JS中有类似重载的思想，即传不同的参数实现不同的效果；
+重写：子类可以重写父类的属性和方法；
+3.单例模式：把描述同一事物的属性和方法，放在同一个命名空间下进行分组；避免不同事物相同属性，变量名冲突的问题；
+单例模式-本质就是对象；
+命名空间：浏览器开辟了一个堆内存，给这个内存附上名字，比如peron1就是命名空间；
+4.模块化开发：对于一个大型项目，分给不同的工程师去完成不同的模块，全部完成之后，把所有模块拼接到一起，整个项目就完成了；（避免了变量名冲突，可以同步开发）；
+1)单例模式就是最简单的模块化开发；（seaJS,RequireJS）
+2)单例模式中可进行各模块之间的相互调用 模块名.属性名；
+3）单例模式中本模块之间的相互调用 this.属性名、方法名；
+5.单例模式的优缺点：
+优点：1.避免变量名冲突 2.实现模块化开发
+缺点：手工作业模式，一个个创建，低效率
+解决办法：工厂模式-封装
+
+6、单例模式：
+  var util={//常用的工具方法；
+        getByClass:function(className){
+
+        },
+        toDou:function(){
+
+        }
+    }
+
+7、构造函数的细节：
+  1）创建一个实例是，如果没有参数，小括号可以省略；
+  2）关于this指向问题：
+  构造函数中的this，指向实例；
+  方法中的this：方法调用时，看前面是否有点，点前面是谁，this就是谁；
+  3）构造函数中，只有this.xx跟实例有关系，和里面变量没有任何关系；
+  4）构造函数执行完，系统会默认返回一个对象，如果我们自己return一个返回值的话：
+      1.return 基本数据类型值， 无效，返回的还是当前这个实例；
+      2.return 引用数据类型，会替换掉当前这个实例，此时，实例上的属性和方法都无效了；
+
+ 8、原型模式
+      1.构造函数 类 实例
+      2.原型模式 实例 类 原型
+      3.原型链基础知识：
+      1）每一个函数(普通函数，类)都天生自带一个prototype的属性，这个prototype是个对象
+      2）这个属性天生自带constructor属性，属性值是当前这个类；
+      3）每个对象(普通对象，prototype，实例)都天生自带一个__proto__的属性，属性值：当前这个实例所属类的原型；
+      4.原型解决的问题：原型prototype上存储的都是公有的属性和方法；
+      5.原型链是通过__proto__来实现的；
+      原型链查找机制：
+      1）.对象.属性 现在自己的私有空间里找，如果找到，就用这个私有属性；
+      2）.找不到，通过__proto__继续往该实例所属类的原型上找；如果找到，它是一个公有的属性；
+      3）.找不到，继续通过__proto__往上级对象上找，一直找到Object.prototype。。，如果还没有找到-undefined；
+      6.所有的类都是函数
+      7.Object是个基类：
+      1）f1 instanceof Object=>true; 他可以通过__proto__一直找到Object这个类；
+      2）Object.prototype上没有__proto__;
+
+ 9、  alert(Object instanceof Function)  true
+       alert(Function instanceof Object) true
+       alert(typeof  Object)             Function
+
+ 10、//批量设置公有的属性,prototype不再指向浏览器默认开辟的堆内存,prototype则指向重新开辟的堆内存,
+        //浏览器在空闲的时候,会把默认开辟的堆内存释放掉
+        //查找属性时:首先查找私有属性,如果没有,则查找原型对象上的公有属性,如果没有,则通过__proto__继续往所属类的原型上查找......一直查找Object类的原型..... -->这样的查找过程就是基于原型链的查找
+        //原型链是实现继承的关键,是js中独有的一种机制
+        //所有的函数都有prototype属性,只有在构造函数上才有意义
+        //所有的对象(实例,原型对象)上都有__proto__这个属性,指向所属类的原型
+        //constructor可以用来检测数据类型
+
+              eg:
+              Fn.prototype = {
+                             //constructor:Fn, 为了让新的原型对象和构造函数之间重新建立联系
+                             x: 20,
+                             sum: function () {
+                                 console.log(this.x + this.y);
+                             }
+                         };
+                         var f = new Fn(10);
+                         console.log(f.sum === Fn.prototype.sum);//true;
+                         f.sum();//20
+                         Fn.prototype.sum();//20+undefined->NaN
+                         console.log(f.constructor);//Object
+
+11、函数的三种角色:
+   1.普通函数:当方法运行的时候,形成一个私有的作用域,1.形参赋值 2.预解释 3. 代码从上往下执行
+   2.构造函数(类):new+函数名执行,通过这种方式运行的函数就称为是构造函数,构造函数有自己原型对象(prototype),构造函数里通过this.xx = xx 设置的属性都是实例的私有属性,this表示某一个实例 ,hasOwnProperty可以判断是私有的属性还是公有的属性
+   3.函数也是对象,只是函数比较特殊,因此单独独立成function类型
+   eg:
+    fn instanceof Object->true  可以像对象一样设置自己属性和值
+   这三种角色之间相互独立,没有关系
+   所有的函数都是Function类的实例 fn instanceof Function ->true
+   所有的对象都是Object类的实例
+
+12.call,apply,bind区别
+   1）call和apply基本一样，传参方面：
+       call（this指向，参数1，参数2..）-参数一个个传
+       apply(this指向，[参数1，参数2...]) -参数放在一个数组里，但相对形参来说，也是一个个传
+   2）bind：
+   预处理机制：提前把this指向改了，参数也传好了；bind会返回一个函数；啥时候需要啥时候调用即可；
+
+   eg:  1、模拟call方法
+          Function.prototype.call = function(){
+              //this -->fn
+              //1.改变this关键字(fn)的"this关键字"变成第一个实参
+              //2.让fn运行->fn()->this();
+          }
+
+        2、fn1.call.call.call(fn2);
+            fn1.call == fn1.__proto__.call == Function.prototype.call
+            fn1.call.call == Function.prototype.call
+
+12.1、关于fn1.apply()this指向问题：
+     1）在非严格模式下：
+             fn1(); //this-window;
+             fn1.apply(null);//this-winow;
+             fn1.apply(undefined);//this-winow;
+             fn1.apply();//this-winow;
+     2)在严格模式下'use strict':
+         fn1(); //this-undefined;(函数前面没有点)
+             //以下严格模式下，apply中this指向传谁，this就是谁，不传-undefined；
+         fn1.apply(null);//this-null;
+         fn1.apply(undefined);//this-undefined;
+         fn1.apply();//this-undefined;
+
+         应用一：求平均值
+          var ary1=avg(9.8,9.7,6,1,8.8,6.6);
+             function avg(){
+                 //1.类数组转数组,用数组sort方法；
+                 [].sort.call(arguments,function(a,b){
+                     return a-b;
+                 });
+                 console.log(arguments);
+                 //2.类数组转数组,用数组shift方法；
+                 [].shift.call(arguments);
+                 [].pop.call(arguments);
+                 return (eval([].join.call(arguments,'+'))/arguments.length).toFixed(2);
+             }
+           应用二：求最大值
+                 console.log(eval("Math.max("+ary.toString()+")"));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

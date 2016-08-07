@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+
+        }
+
+        #box {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            top:30px;
+            left:30px;
+            background: red;
+            cursor: move;
+        }
+    </style>
+</head>
+<body>
+<div id="box"></div>
+<script type="text/javascript">
+    var oBox = document.getElementById("box");
+    var oBody = document.documentElement || document.body;
+    //鼠标的按下事件
+    oBox.onmousedown = function (ev) {
+        //浏览器兼容性问题
+        ev = ev || window.event;
+        //获取鼠标按下去的坐标
+        var x = ev.clientX,
+                y = ev.clientY,
+                l = x - oBox.offsetLeft,
+                t = y - oBox.offsetTop;
+        //鼠标的移动事件
+        oBody.onmousemove = function (e) {
+            //浏览器兼容性问题
+            e = e || window.event;
+            //获取鼠标移动的坐标
+            x = e.clientX;
+            y = e.clientY;
+            var newL = x - l,
+                    newT = y - t,
+                    minL = 0,
+                    maxL = (document.documentElement.clientWidth || document.body.clientWidth) - oBox.offsetWidth,
+                    minT = 0,
+                    maxT = (document.documentElement.clientHeight || document.body.clientHeight) - oBox.offsetHeight;
+            newL = newL < minL ? minL : (newL > maxL ? maxL : newL);
+            newT = newT < minT ? minT : (newT > maxT ? maxT : newT);
+            oBox.style.left = (newL) + "px";
+            oBox.style.top = (newT) + "px";
+        };
+        //鼠标抬起事件
+        oBody.onmouseup = function () {
+            //清空移动事件
+            oBody.onmousemove = null;
+        }
+    }
+</script>
+</body>
+</html>
